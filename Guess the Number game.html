@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guessing Game</title>
+</head>
+<style>
+
+body {
+    background-color: #313131;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100dvh;
+    width: 100%;
+}
+
+#box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 400px;
+    width: 80%;
+    transform: translate(-50%,-50%);
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    box-shadow: 10px 10px 10px grey;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    display: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#display {
+    background-color: #131313;
+    height: 50px; width: 500px; 
+    color: gold; display: flex; 
+    align-items: center; 
+    justify-content: center;
+    border-radius: 30px;
+    border: 2px solid grey ;
+}
+
+button {
+    border-radius: 20px;
+    width: 200px;
+    height: 50px;
+    font-weight: bold;
+    font-size: 1.5em;
+    border: none;
+    transition: 0.3s;
+}
+
+button:active {
+    transform: scale(.8);
+    transition: 0.3s;
+}
+
+input {
+    outline: none; 
+    height: 50px; 
+    width: 100px; 
+    font-size: 2em;
+    border-radius: 10px;
+    padding: 0 10px;
+}
+
+::-webkit-inner-spin-button {
+    display: none;
+}
+
+</style>
+<body>
+    
+
+    <main>
+        <center>
+        <h1 style="font-size: 3em; color: ghostwhite;">Guess the number Game</h1>
+        <h2 style="font-size: 1.5em;">Choose Number between 1 - 100 </h2>
+        <br><br>
+        <hr>
+        <input type="number" name="" id="input" max="999" min="1"/>
+        <br><br>
+        <button id="btn" style="display: block;">Check</button>
+        <hr>
+        <h2 id="display">----START----</h2>
+        <br>
+        <h3 style="word-spacing: 10px; font-size: 3em;">Attempt's : <span id="counter" style="margin-left: 50px;">00</span> / 50 </h3>
+        <div id="box">
+            <h1>GAME OVER</h1>
+            <div>
+                <h2>Your Total Score: <span id="score">00</span></h2>
+                <h2>No. of attempts: <span id="attempt">00</span></h2>
+                <h2>Correct Number: <span id="correct">00</span></h2>
+                <h2>Your Answered Number: <span id="input_Ans">00</span></h2>
+            </div>
+            <h1 id="result"></h1>
+            <button id="tryAgain">Try Again</button>
+        </div>
+    </center>
+    </main>
+    
+    
+</body>
+<script>
+    
+    let Rndm_Number = Math.floor(Math.random() * 100) + 1;
+    console.log(Rndm_Number);
+    
+    let input = document.getElementById("input");
+
+
+    let otpt = document.getElementById("display");
+    let counter = document.getElementById("counter"), count = 0;
+    let box = document.getElementById("box");
+
+
+
+    window.onload = function() {
+    input.focus();
+    };
+
+
+
+    let score = document.getElementById("score"), 
+    attempt = document.getElementById("attempt"),
+    correct = document.getElementById("correct"),
+    input_Ans = document.getElementById("input_Ans");
+    
+    let result_final = ()=> {
+        score.innerHTML = (50 - count) * 10;
+        attempt.innerHTML = count;
+        correct.innerHTML = Rndm_Number;
+        input_Ans.innerHTML = input.value;
+    }
+
+
+    
+    
+    document.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            check();
+            input.value = "";
+        }
+        else{};
+    });
+    
+
+
+
+
+    function check() {
+
+        if(input.value == ""){
+            otpt.innerHTML = `Please Enter the Number`;
+        }
+        else if(input.value == Rndm_Number){
+            otpt.innerHTML = `booyah! Your number : ${input.value} is correct.`;
+            otpt.style.backgroundColor = "green";
+            box.style.display = "flex";
+            box.style.background = "rgba(20, 226, 123, 0.577)";
+            result_final();
+
+        }
+        else if (input.value % 1 != 0) {
+            otpt.innerHTML = `Number must should be whole number. your number is: ${input.value}`;
+            otpt.style.backgroundColor = "black";
+        }
+        else if (input.value < Rndm_Number) {
+            otpt.innerHTML = `Almost there but Your number : ${input.value} is lesser.`;
+            otpt.style.backgroundColor = "red";
+            otpt.style.color = "white";   
+        }
+        else if (input.value > Rndm_Number) {
+            otpt.innerHTML = `Almost there but Your number : ${input.value} is greater.`;
+            otpt.style.backgroundColor = "red";
+            otpt.style.color = "white";   
+        }
+        else{};
+
+
+        if(input.value != ""){
+            if(count < 50) {
+            count++;
+            counter.innerHTML = count;
+            }
+            else {
+            box.style.display = "flex";
+            box.style.backgroundColor = "rgba(255, 255, 255, 0.577)";
+            result_final();
+            };
+        }
+        else{};
+    };
+
+
+
+
+    
+
+
+    document.getElementById("tryAgain").addEventListener("click", refresh);
+
+    function refresh() {
+        location.reload();
+    }
+
+
+
+</script>
+</html>
